@@ -2,6 +2,7 @@ package randomcompany.estimote;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
 import com.estimote.coresdk.cloud.api.CloudCallback;
 import com.estimote.coresdk.common.config.EstimoteSDK;
@@ -31,7 +32,6 @@ public class MainActivity extends AppCompatActivity {
         EstimoteSDK.initialize(getApplicationContext(), "locationbuilder-project-hd6", "faae6c28864872153523cdb072e4cc70");
         EstimoteSDK.enableDebugLogging(true);
 
-
         cloudManager = new IndoorCloudManagerFactory().create(this);
         cloudManager.getLocation("otthon-", new CloudCallback<Location>() {
             @Override
@@ -44,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
                         new IndoorLocationManagerBuilder(getApplicationContext(), location)
                                 .withDefaultScanner()
                                 .build();
+
+                indoorLocationManager.startPositioning();
 
                 indoorLocationManager.setOnPositionUpdateListener(new OnPositionUpdateListener() {
                     @Override
@@ -63,6 +65,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void failure(EstimoteCloudException e) {
                 // oops!
+                if (1==1)  {
+                    Log.e("asdasasd",e.getMessage(),e);
+
+                }
             }
 
         });
@@ -73,7 +79,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        indoorLocationManager.startPositioning();
+        if (indoorLocationManager != null) {
+
+
+        }
+
     }
 
     @Override
